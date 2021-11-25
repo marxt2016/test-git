@@ -23,7 +23,6 @@ export class FilmsService {
                     imdbId: filmData.imdbId,
                 });
             });
-            console.log(filmModels);
             return filmModels;
         }
         catch (error) {
