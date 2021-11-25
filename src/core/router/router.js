@@ -24,15 +24,14 @@ export class Router {
         }
     }
 
-    #hashChange() {
+    async #hashChange() {
         const routeInfo = this.#getRouteInfo();
         const TargetView = this.#routes[routeInfo.routeName] || FilmsView;
         if (TargetView) {
             this.#root.innerHTML = '';
-            const paramsForRender = this.#controller.getViewParams(routeInfo.routeName);
+            const paramsForRender = await this.#controller.getViewParams(routeInfo.routeName);
             const targetView = new TargetView(this.#root);
             targetView.render(...paramsForRender);
-            console.log(paramsForRender);
         }
 
     }

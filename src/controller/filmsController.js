@@ -12,11 +12,14 @@ export class FilmsController {
         this.#favouriteFilms = [];
 
     }
-    getViewParams(routeName) {
+
+    async getViewParams(routeName) {
         let paramsForRender = [];
+        this.#allFilms = await this.#service.getFilms();
         if (routeName === Routes.Main) {
             paramsForRender = [this.#allFilms];
         } else if (routeName === Routes.Favourites) {
+            this.#favouriteFilms = await this.#service.getFavouriteFilms();
             paramsForRender = [this.#favouriteFilms];
         } else if (routeName === Routes.Film) {
             paramsForRender = [];
@@ -24,9 +27,19 @@ export class FilmsController {
         return paramsForRender;
     }
 
+    async handleFavouriteButtonClick(isFavourite, filmId) {
+        if (isFavourite) {
+            await this.#service.removeFilmFromFavourites(this.#allFilms, this.#favouriteFilms, filmId);
+        } else {
+            await this.#service.addFilmToFavourites(this.#allFilms, this.#favouriteFilms, filmId);
+        }
+
+    }
+
     async init() {
-        this.#allFilms = await this.#service.getFilms();
-        this.#allFilms.forEach((film) => console.log(film.getTitle()));
+
+        //this.#favouriteFilms = this.#allFilms;
+        //this.#allFilms.forEach((film) => console.log(film.getTitle()));
         //this.#favouriteFilms = this.#allFilms;
         this.#router.init();
     }

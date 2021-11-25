@@ -1,7 +1,7 @@
 import inFavouritesImage from '../../assets/icons/heart-outlined.png';
 import notFavouritesImage from '../../assets/icons/heart.png';
 
-export const renderFilmComponent = ({ filmModel, }) => {
+export const renderFilmComponent = ({ filmModel, handleFavouriteButtonClick }) => {
     const container = document.createElement('div');
     container.className = 'film-card';
     const titleHTML = document.createElement('span');
@@ -28,6 +28,14 @@ export const renderFilmComponent = ({ filmModel, }) => {
         actionButtonImg.src = notFavouritesImage;
     }
     actionButton.append(actionButtonImg);
+    actionButton.addEventListener('click', async () => {
+        console.log('click');
+        console.log(filmModel.getId());
+        if (handleFavouriteButtonClick) {
+            console.log(filmModel.getId());
+            await handleFavouriteButtonClick(filmModel.getIsFavourite(), filmModel.getId());
+        }
+    });
 
     container.append(titleHTML, imageHTML, yearHTML, actionButton);
     return container

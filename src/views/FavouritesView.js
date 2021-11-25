@@ -3,6 +3,9 @@ import { Routes } from '../core/constants/routes';
 import { View } from './View';
 
 export class FavouritesView extends View {
+
+    #handleFavouriteButtonClick
+
     static #Text = {
         SeeAllFilms: 'Open Films',
         HeaderText: 'Favourites',
@@ -30,7 +33,11 @@ export class FavouritesView extends View {
         filmsContainer.className = 'film-cards-container';
 
         favouriteFilmModels.forEach((filmModel) => {
-            const filmHTML = renderFilmComponent({ filmModel });
+            const filmHTML = renderFilmComponent(
+                {
+                    filmModel,
+                    handleFavouriteButtonClick: this.#handleFavouriteButtonClick,
+                });
             filmsContainer.append(filmHTML);
         })
         container.append(titleHTML, linksBlock, filmsContainer);
