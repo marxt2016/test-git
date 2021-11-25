@@ -31,6 +31,7 @@ export class Router {
             this.#root.innerHTML = '';
             const paramsForRender = await this.#controller.getViewParams(routeInfo.routeName);
             const targetView = new TargetView(this.#root);
+            targetView.setHandleFavouriteButtonClick(this.#controller.handleFavouriteButtonClick.bind(this.#controller));
             targetView.render(...paramsForRender);
         }
 

@@ -4,8 +4,6 @@ import { View } from './View';
 
 export class FavouritesView extends View {
 
-    #handleFavouriteButtonClick
-
     static #Text = {
         SeeAllFilms: 'Open Films',
         HeaderText: 'Favourites',
@@ -36,7 +34,7 @@ export class FavouritesView extends View {
             const filmHTML = renderFilmComponent(
                 {
                     filmModel,
-                    handleFavouriteButtonClick: this.#handleFavouriteButtonClick,
+                    handleFavouriteButtonClick: this.getHandleFavouriteButtonClick(),
                 });
             filmsContainer.append(filmHTML);
         })

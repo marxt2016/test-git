@@ -37,7 +37,11 @@ export class FilmsView extends View {
 
 
         filmModels.forEach((filmModel) => {
-            const filmHTML = renderFilmComponent({ filmModel });
+            const filmHTML = renderFilmComponent(
+                {
+                    filmModel,
+                    handleFavouriteButtonClick: this.getHandleFavouriteButtonClick(),
+                });
             filmsContainer.append(filmHTML);
         })
 

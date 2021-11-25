@@ -11,6 +11,29 @@ export class FilmsService {
         Main: (searchByName = FilmsService.#DefaultSearchValue) => `https://www.omdbapi.com/?s=${searchByName}&apiKey=${EnvData.FilmsApiKey}`,
         FilmById: (filmId) => `https://www.omdbapi.com/?i=${filmId}&apiKey=${EnvData.FilmsApiKey}`,
     }
+    static #converFilmModelToFilm(filmModels = []) {
+        return filmModels.map((filmModel) => {
+            return {
+                Poster: filmModel.getPoster(),
+                Title: filmModel.getTitle(),
+                Year: filmModel.getYear(),
+                imdbID: filmModel.getId(),
+                isFavourite: filmModel.getIsFavourite(),
+            };
+        })
+    }
+
+    static #converFilmToFilmModel(films) {
+        return films.map((filmData) => {
+            return new FilmModel({
+                Poster: filmData.Poster,
+                Title: filmData.Title,
+                Year: filmData.Year,
+                imdbID: filmData.imdbID,
+                isFavourite: !!filmData.isFavourite,
+            });
+        });
+    }
 
     #storage
     constructor() {
@@ -21,14 +44,7 @@ export class FilmsService {
         try {
             const response = await fetch(FilmsService.#Urls.Main());
             const data = await response.json();
-            const filmModels = data.Search.map((filmData) => {
-                return new FilmModel({
-                    Poster: filmData.Poster,
-                    Title: filmData.Title,
-                    Year: filmData.Year,
-                    imdbId: filmData.imdbId,
-                });
-            });
+            const filmModels = FilmsService.#converFilmToFilmModel(data.Search);
             return filmModels;
         }
         catch (error) {
@@ -43,13 +59,14 @@ export class FilmsService {
             const localStorageData =
                 this.#storage.getItem('Favourites');
             const favFilms = JSON.parse(localStorageData) || [];
-            resolve(favFilms);
+            resolve(FilmsService.#converFilmToFilmModel(favFilms));
         });
     };
 
     saveFilms(favourites = []) {
         return new Promise((resolve) => {
-            const stringifyFavFilms = JSON.stringify(favourites);
+            const convertedFavourites = FilmsService.#converFilmModelToFilm(favourites);
+            const stringifyFavFilms = JSON.stringify(convertedFavourites);
             this.#storage.setItem('Favourites', stringifyFavFilms);
             resolve();
         });
@@ -59,7 +76,7 @@ export class FilmsService {
         const targetFilm = allFilms.find((filmModel) => filmModel.getId() === filmId);
         if (targetFilm) {
             targetFilm.setIsFavourite(true);
-            const finalFavouritesFilms = favourites.concat(targetFilm);
+            const finalFavouritesFilms = [...favourites, targetFilm];
             await this.saveFilms(finalFavouritesFilms);
         }
     }

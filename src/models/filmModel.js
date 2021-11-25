@@ -10,7 +10,7 @@ export class FilmModel {
         this.#title = filmData.Title;
         this.#year = filmData.Year;
         this.#imdbID = filmData.imdbID;
-        this.#isFavourite = false;
+        this.#isFavourite = filmData.isFavourite;
     }
     getPoster() {
         return this.#poster;

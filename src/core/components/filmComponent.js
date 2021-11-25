@@ -29,8 +29,6 @@ export const renderFilmComponent = ({ filmModel, handleFavouriteButtonClick }) =
     }
     actionButton.append(actionButtonImg);
     actionButton.addEventListener('click', async () => {
-        console.log('click');
-        console.log(filmModel.getId());
         if (handleFavouriteButtonClick) {
             console.log(filmModel.getId());
             await handleFavouriteButtonClick(filmModel.getIsFavourite(), filmModel.getId());

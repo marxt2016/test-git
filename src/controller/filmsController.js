@@ -33,14 +33,11 @@ export class FilmsController {
         } else {
             await this.#service.addFilmToFavourites(this.#allFilms, this.#favouriteFilms, filmId);
         }
+        this.#favouriteFilms = await this.#service.getFavouriteFilms();
 
     }
 
     async init() {
-
-        //this.#favouriteFilms = this.#allFilms;
-        //this.#allFilms.forEach((film) => console.log(film.getTitle()));
-        //this.#favouriteFilms = this.#allFilms;
         this.#router.init();
     }
 }
