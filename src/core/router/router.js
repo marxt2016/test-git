@@ -1,5 +1,6 @@
 import { FilmsView } from "../../views/FilmsView";
 
+
 export class Router {
     #controller
     #routes
@@ -31,6 +32,7 @@ export class Router {
             const paramsForRender = this.#controller.getViewParams(routeInfo.routeName);
             const targetView = new TargetView(this.#root);
             targetView.render(...paramsForRender);
+            console.log(paramsForRender);
         }
 
     }

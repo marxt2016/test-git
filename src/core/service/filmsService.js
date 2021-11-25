@@ -31,4 +31,15 @@ export class FilmsService {
             }
         }
     }
+
+    async saveFilms() {
+
+    }
+
+    async addFilmToFavourites() {
+
+    }
+    async removeFilmToFavourites() {
+
+    }
 }

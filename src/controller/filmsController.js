@@ -27,6 +27,7 @@ export class FilmsController {
     async init() {
         this.#allFilms = await this.#service.getFilms();
         this.#allFilms.forEach((film) => console.log(film.getTitle()));
+        //this.#favouriteFilms = this.#allFilms;
         this.#router.init();
     }
 }
